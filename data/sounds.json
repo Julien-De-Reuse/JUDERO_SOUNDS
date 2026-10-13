@@ -4,6 +4,11 @@
       "id": "2004",
       "name": "Narafi-sounds",
       "color": "#8ccfc0"
+    },
+    {
+      "id": "FCDK",
+      "name": "FC De Kampioenen",
+      "color": "#fdee00"
     }
   ],
   "sounds": [
@@ -14,7 +19,16 @@
       "file": "audio/Robin alle rushes bekijken.wav",
       "volume": 1,
       "color": "#8ccfc0",
-      "duration": 0.6
+      "duration": 0.11
+    },
+    {
+      "id": "ze-voelt-het-niet",
+      "name": "Ze voelt het niet",
+      "collectionId": "FCDK",
+      "file": "audio/Ze voelt het niet.wav",
+      "volume": 1,
+      "color": "#fdee00",
+      "duration": 0.02
     }
   ]
 }
