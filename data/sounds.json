@@ -1,0 +1,38 @@
+{
+  "collections": [
+    {
+      "id": "starter",
+      "name": "Getting started",
+      "color": "#a89bff"
+    }
+  ],
+  "sounds": [
+    {
+      "id": "soft-chime",
+      "name": "Soft Chime",
+      "collectionId": "starter",
+      "file": "audio/soft-chime.wav",
+      "volume": 1,
+      "color": "#a89bff",
+      "duration": 0.6
+    },
+    {
+      "id": "little-signal",
+      "name": "Little Signal",
+      "collectionId": "starter",
+      "file": "audio/little-signal.wav",
+      "volume": 1,
+      "color": "#8ccfc0",
+      "duration": 0.6
+    },
+    {
+      "id": "low-pulse",
+      "name": "Low Pulse",
+      "collectionId": "starter",
+      "file": "audio/low-pulse.wav",
+      "volume": 1,
+      "color": "#efbf8d",
+      "duration": 0.6
+    }
+  ]
+}

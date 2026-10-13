@@ -1,50 +1,68 @@
-# Soundbox
-A minimal, responsive, local soundboard. No npm, build step, subscription, account or internet required. Source code is included and editable.
+# Soundbox — GitHub Pages edition
+Plain HTML, CSS and JavaScript. No backend, npm, build step or database.
 
-## Open it
-Quickest: extract the ZIP, then open **index.html in Chrome or Edge**. Modern desktop browsers usually allow the app to save its data this way. If storage is unavailable, use the local launcher below.
+## 1. Open locally in VS Code
+Extract this folder and open it in VS Code. Use the Live Server extension's **Open with Live Server** on index.html, or run `python3 serve.py` in the integrated terminal. The Mac/Windows launchers work too if Python 3 is installed.
 
-Recommended (stable browser storage address):
-- **Mac:** double-click `Start-Soundbox.command`. If macOS does not allow execution, open Terminal in this folder and run `python3 serve.py`.
-- **Windows:** double-click `Start-Soundbox.bat`.
-- **Linux:** run `python3 serve.py`.
-- These launchers require Python 3. If it is not installed, use the direct index.html option or install Python 3 from python.org.
-- Open **http://localhost:8765**. Keep the terminal window open while using the app. Ctrl+C stops the server.
+Do not double-click index.html: loading the JSON catalog requires an HTTP server. Local preview is only a static file server, not a backend.
 
-Always use the same browser and opening method. File-based and localhost-based storage are separate. Export/import a backup to move your workspace between them. The launcher binds to your computer only; it does not expose your files to your network.
+## 2. Get an audio snippet from a video
+1. Click **Extract a snippet**.
+2. Choose your video or audio file.
+3. Drag the start/end handles or type seconds, then preview.
+4. Enter a name and select a collection/color. Individual volume starts at 100% and can go up to 300%.
+5. Click **Download WAV snippet**.
+6. Move the downloaded file into the project's `audio` folder.
+7. Copy the generated JSON entry into the `sounds` array in `data/sounds.json`.
+8. Save, refresh your local preview, commit and push.
 
-## Use
-1. Create a collection, then open it.
-2. Add a sound and choose or drop an audio/video file.
-3. Drag the waveform start/end handles, or type exact seconds. Preview the selection.
-4. Name it, choose a color and volume, then Save sound.
-5. Click the full pad to play. Clicking again restarts it. By default, playing a new sound stops the previous one. Enable overlapping sounds if desired.
-6. Press **1–9** for the first nine visible pads. **Escape** or Stop all stops playback.
-7. Click **•••** to edit, move to another collection, change the trim, export WAV or delete.
-8. Drag pads onto each other to reorder on desktop.
-9. Toggle light/dark mode with the header button.
+Extraction uses your browser's audio decoder. Some video containers/codecs (including some MP4/MOV files) cannot be decoded this way. If you get the conversion message, export WAV audio from your existing video editor first and trim it here. There is no bundled video transcoder. Files are processed locally; the original video is not uploaded or included in the repo. Large files can exhaust browser memory; no artificial 500 MB cap is applied.
 
-The initial Getting started collection contains three generated demo tones. You can rename or delete it.
+Volume is saved as playback gain in the JSON, not baked into the downloaded WAV. 1 means original volume, 1.5 means 150%, 3 means 300%. Excessive boost may distort.
 
-## Your files and backups
-Imported files and collections are stored in **IndexedDB in this browser**, not in the app folder. Originals remain unmodified; saved sounds reference the selected interval. Moving/deleting the original file on your computer after import does not remove the imported copy.
+## 3. Add an existing audio file using only VS Code
+Put `goal.mp3` in `audio/`. Add this object inside `sounds` in `data/sounds.json`:
 
-**Use Export backup regularly.** It includes collections, clips and original media in one JSON file. Import backup replaces the current workspace after confirmation. Clearing browser/site data, using private browsing or deleting a browser profile can erase the workspace. Browser data does not sync between devices. Large backups can require significant memory.
+```json
+{
+  "id": "goal",
+  "name": "Goal!",
+  "collectionId": "starter",
+  "file": "audio/goal.mp3",
+  "volume": 1,
+  "color": "#a89bff"
+}
+```
 
-## Media support
-MP3 and WAV are good choices. M4A and AAC-audio MP4 commonly work. MOV and other formats depend on the codecs your browser supports; a file extension alone does not guarantee support. Unsupported formats produce an error. There is no bundled transcoder.
+Place a comma between objects, but no trailing comma after the last one. IDs must be unique. Filename capitalization must match exactly. Keep paths relative (`audio/goal.mp3`, not `/audio/goal.mp3`) so GitHub repository subpaths work. WAV and MP3 are the simplest playback choices. `duration` is optional and only supplies the pad's duration label; the full file plays.
 
-Audio that the Web Audio API can decode gets a real waveform, accurately scheduled playback and **Export clip WAV**. Other playable media gets a simple timeline and media-element playback; clip boundaries can be less exact. Video imports play their audio on the pads, and show a video preview in the editor. Silent videos produce no sound. WAV export is only available for decodable media.
+To add a collection, put this object inside `collections`:
 
-Files are limited to 500 MB; smaller files are recommended because waveform generation decodes media into memory. Trim is non-destructive and does not reduce stored source size.
+```json
+{
+  "id": "football",
+  "name": "Football",
+  "color": "#8ccfc0"
+}
+```
 
-## Mobile
-The UI adapts to phones/tablets, but this ZIP is designed to run on a desktop. Phone browsers do not generally open a folder of HTML files as an app. To use it on a phone, serve it on an accessible web host or adapt the launcher to your network; each browser has its own data. This version is not an installable PWA and has no cloud sync.
+Then set your sound's `collectionId` to `football`. Rename/reorder/delete by editing the JSON. To reorder pads, reorder their sound objects. To remove a sound, delete its object and optionally its audio file. Color uses six-digit hex.
 
-## Project
-- index.html — interface
-- style.css — responsive themes
-- app.js — IndexedDB, audio engine, trim editor, WAV/backup export
-- serve.py — optional standard-library Python local server
+## 4. Publish with GitHub Pages
+1. Create a repository on GitHub (a public repository is the simplest setup).
+2. Put the **contents of this folder** in the repository root: index.html, app.js, style.css, data/, audio/, and .nojekyll. Keep the README and local launchers too if useful.
+3. Commit and push to main using VS Code Source Control or GitHub Desktop.
+4. On GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → main → /(root) → Save**.
+5. When deployment completes, open the URL shown in Pages settings. Future pushes update the site.
 
-No third-party libraries, trackers, network calls or external assets are used.
+Official setup guide: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+The browser cannot write files back into your GitHub repo. The extraction tool only downloads a WAV and prepares an entry; you place them in your local project and commit/push. Uploading a file in the extractor does not publish it. Sounds in a publicly accessible Pages site are downloadable by its visitors, so publish media you can share.
+
+## Playback
+Tap a pad to play/restart. Numbers 1–9 trigger the first nine visible sounds. Escape/Stop all stops playback. Enable overlapping sounds to mix pads. Master volume affects all pads; each JSON `volume` affects only that sound. Decoded audio is cached in memory for faster repeat playback; reloading clears this cache.
+
+## Differences from the earlier local edition
+The repository is the authoritative library. No IndexedDB workspace or browser backups are used. Existing browser-only sounds are not automatically migrated: export their clips from the old app, put the files in audio/, and add their entries. Only the theme preference is stored locally.
+
+All three example tones are generated demo audio and can be removed. No external fonts, libraries, analytics or network services are loaded; the browser fetches only the site's JSON and media.
