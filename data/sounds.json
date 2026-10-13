@@ -4,6 +4,11 @@
       "id": "starter",
       "name": "Getting started",
       "color": "#a89bff"
+    },
+    {
+      "id": "2004",
+      "name": "Narafi-sounds",
+      "color": "#8ccfc0"
     }
   ],
   "sounds": [
@@ -32,6 +37,15 @@
       "file": "audio/low-pulse.wav",
       "volume": 1,
       "color": "#efbf8d",
+      "duration": 0.6
+    },
+    {
+      "id": "robin-alle-rushes-bekijken",
+      "name": "Robin alle rushes bekijken",
+      "collectionId": "2004",
+      "file": "audio/Robin alle rushes bekijken.wav",
+      "volume": 1,
+      "color": "#8ccfc0",
       "duration": 0.6
     }
   ]
